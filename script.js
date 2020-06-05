@@ -48,10 +48,34 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const btnGift = document.querySelector('.fixed-gift');
     btnGift.addEventListener('click', () => btnGift.style.display = 'none');
-    
+
   }
 
 
   popup();
+
+  //scroll
+  const scroll = () => {
+    const totop = document.getElementById('totop');
+    totop.style.display = 'none';
+
+    totop.addEventListener('click', (e) => {
+      e.preventDefault()
+      window.scrollTo({
+        top: 0,
+        behavior: "smooth"
+    });
+    }) 
+
+    window.addEventListener('scroll', () => {
+      let flag = (pageYOffset < document.documentElement.clientHeight);
+      totop.style.display = flag ? 'none' : 'block';
+    });
+  }
+
+  scroll();
+
+  
+
 
 });
