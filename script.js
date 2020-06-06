@@ -103,6 +103,7 @@ window.addEventListener('DOMContentLoaded', () => {
   // Меню
   const toggleMenu = () => {
     const topMenu = document.querySelector('.top-menu'),
+      patchMenu = document.querySelector('.patch-menu'),
       btnMenu = document.querySelector('.menu-button img'),
       popupMenu = document.querySelector('.popup-menu'),
       btnCloseMenu = document.querySelector('.close-menu-btn img'),
@@ -125,9 +126,13 @@ window.addEventListener('DOMContentLoaded', () => {
     window.addEventListener('scroll', () => {
       let flag = (pageYOffset > head.offsetHeight);
       if (flag) {
+        const size = topMenu.offsetHeight;
+
         topMenu.style.position = 'fixed';
+        patchMenu.style.height = size + 'px';
       } else {
         topMenu.style.position = 'relative';
+        patchMenu.style.height = 0;
       }
   })
 }
