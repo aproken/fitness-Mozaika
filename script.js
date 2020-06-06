@@ -100,7 +100,28 @@ window.addEventListener('DOMContentLoaded', () => {
 
   scroll();
 
+  // Меню
+  const toggleMenu = () => {
+    const btnMenu = document.querySelector('.menu-button'),
+      menu = document.querySelector('.popup-menu'),
+      btnCloseMenu = document.querySelector('.close-menu-btn img');
+    
+    const closeMenu = () => {
+      menu.style.display = 'none';
+    }
+      
+    menu.addEventListener('click', (e) => {
+      if (e.target == btnCloseMenu || e.target.tagName == 'A') {
+        closeMenu();
+      }
+    })
+    
+    btnMenu.addEventListener('click', () => {
+      menu.style.display = 'block';
+    })
+  }
   
+  toggleMenu();
 
 
 });
