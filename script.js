@@ -8,8 +8,12 @@ window.addEventListener('DOMContentLoaded', () => {
     const dropMenu = document.querySelector('.clubs-list ul');
 
     dropMenu.parentNode.addEventListener('click', () => {
-      dropMenu.style.display = 'block';
-    });
+      if (dropMenu.style.display === 'none') {  
+        dropMenu.style.display = 'block';
+      } else {
+        dropMenu.style.display = 'none';
+      }
+    })
   }
 
   clubСhoice();
@@ -40,11 +44,14 @@ window.addEventListener('DOMContentLoaded', () => {
     }
 
     const btnClose = document.querySelectorAll('.close_icon'),
-      overlay = document.querySelectorAll('.overlay');
+      overlay = document.querySelectorAll('.overlay'),
+      btnOk = document.querySelectorAll('.close-btn');
     
     btnClose.forEach( item => item.addEventListener('click', closePopup));
 
     overlay.forEach( item => item.addEventListener('click', closePopup));
+
+    btnOk.forEach( item => item.addEventListener('click', closePopup));
 
     const btnGift = document.querySelector('.fixed-gift');
     if (btnGift){
