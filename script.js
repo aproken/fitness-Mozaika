@@ -47,10 +47,11 @@ window.addEventListener('DOMContentLoaded', () => {
     overlay.forEach( item => item.addEventListener('click', closePopup));
 
     const btnGift = document.querySelector('.fixed-gift');
-    btnGift.addEventListener('click', () => btnGift.style.display = 'none');
+    if (btnGift){
+      btnGift.addEventListener('click', () => btnGift.style.display = 'none');
+    }
 
   }
-
 
   popup();
 
@@ -71,6 +72,23 @@ window.addEventListener('DOMContentLoaded', () => {
       let flag = (pageYOffset < document.documentElement.clientHeight);
       totop.style.display = flag ? 'none' : 'block';
     });
+
+    //плавный скрол пунктов меню
+    const links = document.querySelectorAll('.scroll');
+
+      links.forEach(item => {
+        item.addEventListener('click', (e) => {
+          e.preventDefault();
+        
+        
+          const blockID = e.target.getAttribute('href').substr(1);
+    
+          document.getElementById(blockID).scrollIntoView({
+            behavior: 'smooth',
+            block: 'start',
+          })
+        })
+      })
   }
 
   scroll();
