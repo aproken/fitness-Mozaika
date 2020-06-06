@@ -102,24 +102,35 @@ window.addEventListener('DOMContentLoaded', () => {
 
   // Меню
   const toggleMenu = () => {
-    const btnMenu = document.querySelector('.menu-button'),
-      menu = document.querySelector('.popup-menu'),
-      btnCloseMenu = document.querySelector('.close-menu-btn img');
+    const topMenu = document.querySelector('.top-menu'),
+      btnMenu = document.querySelector('.menu-button img'),
+      popupMenu = document.querySelector('.popup-menu'),
+      btnCloseMenu = document.querySelector('.close-menu-btn img'),
+      head = document.querySelector('.head');
     
     const closeMenu = () => {
-      menu.style.display = 'none';
+      popupMenu.style.display = 'none';
     }
       
-    menu.addEventListener('click', (e) => {
+    popupMenu.addEventListener('click', (e) => {
       if (e.target == btnCloseMenu || e.target.tagName == 'A') {
         closeMenu();
       }
     })
     
     btnMenu.addEventListener('click', () => {
-      menu.style.display = 'block';
+      popupMenu.style.display = 'block';
     })
-  }
+
+    window.addEventListener('scroll', () => {
+      let flag = (pageYOffset > head.offsetHeight);
+      if (flag) {
+        topMenu.style.position = 'fixed';
+      } else {
+        topMenu.style.position = 'relative';
+      }
+  })
+}
   
   toggleMenu();
 
