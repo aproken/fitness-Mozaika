@@ -139,5 +139,33 @@ window.addEventListener('DOMContentLoaded', () => {
   
   toggleMenu();
 
+  //main slider
+  const mainSlider = () => {
+    const slider = document.querySelector('.main-slider'),
+      slide = slider.querySelectorAll('.slide');
+    
+    let currentSlide = 0;
+
+    const showSlide = (index) => {
+      slide.forEach((item) => {
+        item.style.display = 'none';
+      })
+      slide[index].style.display = 'flex';
+    }
+
+    const autoPlaySlide = () => {
+      currentSlide++;
+      
+      if (currentSlide >= slide.length){
+        currentSlide = 0
+      }
+
+      showSlide(currentSlide);
+    }
+
+    setInterval(autoPlaySlide, 4000);
+  }
+
+  mainSlider();
 
 });
