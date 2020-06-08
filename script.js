@@ -1,6 +1,5 @@
 'use strict';
 
-
   //slider-carousel
 class SliderCarousel {
   constructor({
@@ -10,8 +9,12 @@ class SliderCarousel {
     prev,
     infinity = false,
     position = 0,
-    slidesToShow = 4
+    slidesToShow = 4,
+    responsive = []
   }) {
+    if (!main || !wrap) {
+      console.warn('slider-carousel: Необходимо 2 свойства, main и wrap!');
+    }
     this.main = document.querySelector(main);
     this.wrap = document.querySelector(wrap);
     this.slides = document.querySelector(wrap).children;
@@ -21,8 +24,10 @@ class SliderCarousel {
     this.options = {
       position,
       widthSlide: Math.floor(100 / this.slidesToShow),
-      infinity
+      infinity,
+      maxPosition: this.slides.length - this.slidesToShow
     }
+    this.responsive = responsive
   }
 
   init() {
@@ -35,8 +40,9 @@ class SliderCarousel {
       this.addArow();
       this.controlSlider();
     }
-    console.log(this.slides);
-
+    if (this.responsive) {
+      this.responseInit();
+    }
   }
 
   addMyClass() {
@@ -49,8 +55,13 @@ class SliderCarousel {
   }
 
   addMyStyle() {
-    const style = document.createElement('style');
-    style.id = 'sliderCarousel-style';
+    let style = document.getElementById('sliderCarousel-style');
+
+    if (!style) {
+      style = document.createElement('style');
+      style.id = 'sliderCarousel-style';
+    }
+
     style.textContent = `
       .my-slider {
         overFlow: hidden !important;
@@ -82,16 +93,16 @@ class SliderCarousel {
     if (this.options.infinity || this.options.position > 0) {
       --this.options.position;
       if (this.options.position < 0) {
-        this.options.position = this.slides.length - this.slidesToShow
+        this.options.position = this.options.maxPosition;
       }
       this.wrap.style.transform = `translateX(-${this.options.position * this.options.widthSlide}%)`
     }
   }
 
   nextSlider() {
-    if (this.options.infinity || this.options.position < this.slides.length - this.slidesToShow) {
+    if (this.options.infinity || this.options.position < this.options.maxPosition) {
       ++this.options.position;
-      if (this.options.position > this.slides.length - this.slidesToShow) {
+      if (this.options.position > this.options.maxPosition) {
         this.options.position = 0
       }
       this.wrap.style.transform = `translateX(-${this.options.position * this.options.widthSlide}%)`
@@ -145,6 +156,34 @@ class SliderCarousel {
     `;
 
     document.head.appendChild(style);
+  }
+
+  responseInit() {
+    const slidesToShowDefault = this.slidesToShow;
+    const allResponse = this.responsive.map(item => item.breakpoint);
+    const maxResponse = Math.max( ...allResponse);
+
+    const checkResponse = () => {
+      const widthWindow = document.documentElement.clientWidth;
+
+      if (widthWindow < maxResponse) {
+        for(let i = 0; i < allResponse.length; i++) {
+          if (widthWindow < allResponse[i]) {
+            this.slidesToShow = this.responsive[i].slidesToShow;
+            this.options.widthSlide = Math.floor(100 / this.slidesToShow); 
+            this.addMyStyle;
+          } else {
+            this.slidesToShow = slidesToShowDefault;
+            this.options.widthSlide = Math.floor(100 / this.slidesToShow); 
+            this.addMyStyle;
+          }
+        }
+      }
+    }
+
+    checkResponse();
+
+    window.addEventListener('resize', checkResponse);
   }
 
 }
@@ -302,7 +341,102 @@ const mainSlider = () => {
 setInterval(autoPlaySlide, 4000);
 }
 
-mainSlider();
+
+// Превращаем форму в JSON
+const formToJSON = (form) => {
+  const groupByName = (elements) => {
+    let data = {};
+
+    elements.forEach( item => {
+      if (item.name in data) {
+        data[item.name].push(item)
+      } else {
+        data[item.name] = [item]
+      }
+    })
+    return data;
+  }
+
+  let group_fields = groupByName([...form.elements]);
+
+  const data = Object.entries(group_fields)
+    .filter(([name, group_item]) => {
+      return name != ""; 
+    })
+    .map(([name, group_item]) => {
+    let type = group_item[0].type
+    
+    //если радиобаттон - ищем в группе 
+    if (type == 'radio') {
+      let checked = group_item.filter( i => i.checked )
+      if (checked){
+        return [name, checked[0].value]
+      } 
+    }
+
+    // иначе считаем что это простой input
+    return [name, group_item[0].value]
+  })
+
+  return Object.fromEntries(data);
+}
+
+//Калькулятор
+// Прайс для кард
+const clubPrice = {
+  mozaika: {
+    1: 1999,
+    6: 9900,
+    9: 13900,
+    12: 9900,
+  },
+  schelkovo: {
+    1: 2999,
+    6: 14990,
+    9: 21990,
+    12: 14990,
+    '12d': 24990,
+  },
+}
+
+// подсчет цены 
+const calcPromoPrice = (data) => {
+  const club_name = data['club-name'],
+        card_type = data['card-type'],
+        price = clubPrice[club_name][card_type],
+        hasPromo = data['promo'] === 'ТЕЛО2019';
+  if (hasPromo){
+    return price * 0.7;
+  } else {
+    return price;
+  }
+}
+
+const calc = () => {
+  const form = document.querySelector('#card_order'),
+        totalMessage = form.querySelector('#price-total');
+
+  const render = () => {
+    if (!totalMessage) {
+      return;
+    }
+    const data = formToJSON(form);
+    totalMessage.textContent = calcPromoPrice(data);
+  }
+
+  form.addEventListener('input', render);
+  
+
+  // обработчик отправки формы
+  form.addEventListener('submit', (event) => {
+    event.preventDefault();
+
+    const data = formToJSON(form);
+    console.log("Отправка формы", data);
+  })
+
+  render()
+}
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -310,9 +444,7 @@ window.addEventListener('DOMContentLoaded', () => {
   popup();
   scroll();
   toggleMenu();
-
-  
-
-
+  mainSlider();
+  calc();
 
 });

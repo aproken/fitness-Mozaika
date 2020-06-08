@@ -333,8 +333,10 @@
                     </label>
                     </div>
                     <div class="price">
-                        <div class="price-message input-text"><input name="name" type="text" required
-                                                                     placeholder="Промокод"></div>
+                        <div class="price-message input-text">
+                          <input name="promo"
+                                 type="text"
+                                 placeholder="Промокод"></div>
                         <div class="price-message">Цена:</div>
                         <div class="price-message" id="price-total">2999</div>
                     </div>
@@ -526,15 +528,15 @@
 
     responsive: [
       {
-      breakpoint: 1024,
-      slidesToShow: 5
+        breakpoint: 1024,
+        slidesToShow: 5
       },
       {
         breakpoint: 768,
         slidesToShow: 3
       },
       {
-        breakpoint: 567,
+        breakpoint: 576,
         slidesToShow: 1
       }
     ]
