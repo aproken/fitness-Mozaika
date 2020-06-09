@@ -1,0 +1,47 @@
+.control {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between
+}
+.my-slider__prev,
+.my-slider__next {
+  width: 30px;
+  height: 30px;
+  margin: -204px 0 0 0;
+  padding: 0;
+  background-color: #ffd11a;
+  border: transparent;
+  border-radius: 50%;
+  cursor: pointer;
+  z-index: 99
+}
+.my-slider__prev:hover,
+.my-slider__prev:focus,
+.my-slider__next:hover,
+.my-slider__next:focus {
+  background-color: #ffd11a;
+  border: transparent;
+  border-radius: 50%;
+  outline: transparent
+}
+
+.dots {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  position: relative;
+  bottom: 44px
+}
+.dot {
+  width: 40px;
+  height: 12px;
+  margin: 0 10px;
+  background-color: #fff;
+  border-radius: 22px;
+  border: 1px solid #b7b7b7;
+  cursor: pointer
+}
+.dot-active {
+  background-color:  #ffd11a;
+  border-color: #ffd11a
+}

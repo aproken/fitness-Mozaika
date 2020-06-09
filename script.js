@@ -16,10 +16,10 @@ class SliderCarousel {
       console.warn('slider-carousel: Необходимо 2 свойства, main и wrap!');
     }
     this.main = document.querySelector(main);
-    this.wrap = document.querySelector(wrap);
-    this.slides = document.querySelector(wrap).children;
-    this.next = document.querySelector(next);
-    this.prev = document.querySelector(prev);
+    this.wrap = this.main.querySelector(wrap);
+    this.slides = this.main.querySelector(wrap).children;
+    this.next = this.main.querySelector(next);
+    this.prev = this.main.querySelector(prev);
     this.slidesToShow = slidesToShow;
     this.options = {
       position,
@@ -189,6 +189,7 @@ class SliderCarousel {
 //Выпадающее меню Выбор клуба
 const clubСhoice = () => {
   const dropMenu = document.querySelector('.clubs-list ul');
+  dropMenu.style.display = 'none';
 
   dropMenu.parentNode.addEventListener('click', () => {
     if (dropMenu.style.display === 'none') {  
