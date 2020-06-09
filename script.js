@@ -36,10 +36,7 @@ class SliderCarousel {
 
     if (this.prev && this.next) {
       this.controlSlider();
-    } else {
-      this.addArow();
-      this.controlSlider();
-    }
+    } 
     if (this.responsive) {
       this.responseInit();
     }
@@ -109,54 +106,54 @@ class SliderCarousel {
     }
   }
 
-  addArow() {
-    const btnControl = document.querySelector('.control');
-    btnControl.style = `
-      display: flex;
-      flex-direction: row;
-      justify-content: space-between;
-    `;
+  // addArow() {
+  //   const btnControl = document.querySelector('.control');
+  //   btnControl.style = `
+  //     display: flex;
+  //     flex-direction: row;
+  //     justify-content: space-between;
+  //   `;
 
-    this.prev = document.createElement('button');
-    this.next = document.createElement('button');
+  //   this.prev = document.createElement('button');
+  //   this.next = document.createElement('button');
 
-    this.prev.className = 'my-slider__prev';
-    this.next.className = 'my-slider__next';
+  //   this.prev.className = 'my-slider__prev';
+  //   this.next.className = 'my-slider__next';
 
-    this.prev.innerHTML = '<i class="fa fa-chevron-left" aria-hidden="true"></i>';
-    this.next.innerHTML = '<i class="fa fa-chevron-right" aria-hidden="true"></i>';
+  //   this.prev.innerHTML = '<i class="fa fa-chevron-left" aria-hidden="true"></i>';
+  //   this.next.innerHTML = '<i class="fa fa-chevron-right" aria-hidden="true"></i>';
 
-    btnControl.appendChild(this.prev);
-    btnControl.appendChild(this.next);
+  //   btnControl.appendChild(this.prev);
+  //   btnControl.appendChild(this.next);
 
     
-    const style = document.createElement('style');
-    style.textContent = `
-      .my-slider__prev,
-      .my-slider__next {
-        width: 30px;
-        height: 30px;
-        margin: -204px 0 0 0;
-        padding: 0;
-        background-color: #ffd11a;
-        border: transparent;
-        border-radius: 50%;
-        cursor: pointer;
-        z-index: 99
-      }
-      .my-slider__prev:hover,
-      .my-slider__prev:focus,
-      .my-slider__next:hover,
-      .my-slider__next:focus {
-        background-color: #ffd11a;
-        border: transparent;
-        border-radius: 50%;
-        outline: transparent
-      }
-    `;
+  //   const style = document.createElement('style');
+  //   style.textContent = `
+  //     .my-slider__prev,
+  //     .my-slider__next {
+  //       width: 30px;
+  //       height: 30px;
+  //       margin: -204px 0 0 0;
+  //       padding: 0;
+  //       background-color: #ffd11a;
+  //       border: transparent;
+  //       border-radius: 50%;
+  //       cursor: pointer;
+  //       z-index: 99
+  //     }
+  //     .my-slider__prev:hover,
+  //     .my-slider__prev:focus,
+  //     .my-slider__next:hover,
+  //     .my-slider__next:focus {
+  //       background-color: #ffd11a;
+  //       border: transparent;
+  //       border-radius: 50%;
+  //       outline: transparent
+  //     }
+  //   `;
 
-    document.head.appendChild(style);
-  }
+  //   document.head.appendChild(style);
+  // }
 
   responseInit() {
     const slidesToShowDefault = this.slidesToShow;
@@ -439,6 +436,89 @@ const calc = () => {
   render()
 }
 
+const gallerySlider = () => {
+  const slider = document.querySelector('.gallery-slider'),
+    slide = slider.querySelectorAll('.slide'),
+    wrapperGalery = document.querySelector('.wrapper__galery'),
+    parentDots = document.querySelector('.dots'),
+    dot = [];
+  
+  wrapperGalery.style.width = '946px';
+
+  slide.forEach(() => {
+    let dotItem = document.createElement('li');
+    dotItem.classList.add('dot');
+    parentDots.append(dotItem);
+    dot.push(dotItem);
+  })
+
+  const clearDotActive = () => {
+    dot.forEach((item) => {
+      item.classList.remove('dot-active')
+    })
+  }
+  
+  let currentSlide = 0;
+
+  const showSlide = (index) => {
+    slide.forEach((item) => {
+      item.style.display = 'none';
+    })
+    slide[index].style.display = 'flex';
+    clearDotActive();
+    dot[index].classList.add('dot-active');
+  }
+
+  const nextSlide = () => {
+    currentSlide++;
+    if (currentSlide >= slide.length){
+      currentSlide = 0;
+    }
+  }
+
+  const prevSlide = () => {
+    currentSlide--;
+    if (currentSlide < 0){
+      currentSlide = slide.length - 1 ;
+    }
+  }
+
+  const autoPlaySlide = () => {
+    nextSlide();
+    showSlide(currentSlide);
+  }
+
+  setInterval(autoPlaySlide, 5000);
+
+  wrapperGalery.addEventListener('click', (e) => {
+    e.preventDefault();
+
+    let target = e.target;
+
+    if (!target.matches('.my-slider__prev, .fa-chevron-left, .my-slider__next, .fa-chevron-right, .dot')) {
+      return;
+    }
+
+    if (target.matches('.fa-chevron-right, .my-slider__next')) {
+      nextSlide();
+      showSlide(currentSlide);
+
+    } else if (target.matches('.fa-chevron-left, .my-slider__prev')) {
+      prevSlide();
+      showSlide(currentSlide);
+
+    } else if (target.matches('.dot')) {
+      dot.forEach((elem, index) => {
+        if (elem === target) {
+          currentSlide = index;
+        }
+      })
+      showSlide(currentSlide);
+    }
+    
+  })
+}
+
 window.addEventListener('DOMContentLoaded', () => {
 
   clubСhoice();
@@ -447,5 +527,6 @@ window.addEventListener('DOMContentLoaded', () => {
   toggleMenu();
   mainSlider();
   calc();
+  gallerySlider();
 
 });

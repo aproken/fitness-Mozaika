@@ -9,6 +9,7 @@
     <link rel="stylesheet" href="css/font-awesome.min.css">
 
     <link rel="stylesheet" href="css/style.min.css">
+    <link rel="stylesheet" href="css/btnControl.css">
 </head>
 <body>
 <div class="fixed-gift" data-popup="#gift">
@@ -271,30 +272,46 @@
               <p>Йога - идеальны не только физическая форма, но и эмоциональное состояние</p>
           </div>
         </div>
-        <div class="control"></div>
+        <div class="control">
+          <button class="my-slider__prev">
+            <i class="fa fa-chevron-left" aria-hidden="true"></i>
+          </button>
+          <button class="my-slider__next">
+            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+          </button>
+        </div>
     </div>
 </section>
 <section id="gallery">
     <h2>Фотогалерея</h2>
     <div class="gallery-bg">
-        <div class="wrapper">
+        <div class="wrapper wrapper__galery">
             <div class="gallery-slider">
                 <div class="slide">
                     <img src="images/gallery/photo1.jpg" alt="">
                 </div>
-                <div class="slide">
+                <div class="slide" style="display: none">
                     <img src="images/gallery/photo2.jpg" alt="">
                 </div>
-                <div class="slide">
+                <div class="slide" style="display: none">
                     <img src="images/gallery/photo3.jpg" alt="">
                 </div>
-                <div class="slide">
+                <div class="slide" style="display: none">
                     <img src="images/gallery/photo4.jpg" alt="">
                 </div>
-                <div class="slide">
+                <div class="slide" style="display: none">
                     <img src="images/gallery/photo5.jpg" alt="">
                 </div>
             </div>
+            <div class="control">
+              <button class="my-slider__prev">
+                <i class="fa fa-chevron-left" aria-hidden="true"></i>
+              </button>
+              <button class="my-slider__next">
+                <i class="fa fa-chevron-right" aria-hidden="true"></i>
+              </button>
+            </div>
+            <ul class="dots"></ul>
         </div>
     </div>
 </section>
@@ -523,6 +540,8 @@
   const options = {
     main: '#slider-carousel',
     wrap: '.services-slider',
+    prev: '.my-slider__prev',
+    next: '.my-slider__next',
     slidesToShow: 5,
     infinity: true,
 
