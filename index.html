@@ -208,7 +208,7 @@
                 <input type="tel" name="phone" id="phone" required placeholder="Ваш номер телефона...">
                 <button name="send" class="btn" type="submit">Записаться</button>
                 <p class="personal-data">
-                    <input type="checkbox" required id="check1"><label for="check1">Я согласен на обработку персональных
+                    <input type="checkbox" name="consent" required id="check1"><label for="check1">Я согласен на обработку персональных
                     данных</label>
                 </p>
             </form>
@@ -361,7 +361,7 @@
                     <p class="input-text"><input type="tel" name="phone" id="callback_form-phone" required
                                                  placeholder="Ваш номер телефона..."></p>
                     <p class="personal-data">
-                        <input type="checkbox" required id="card_check"><label for="card_check">Я согласен на обработку
+                        <input type="checkbox" name="consent" required id="card_check"><label for="card_check">Я согласен на обработку
                         персональных данных</label>
                     </p>
                     <p class="submit">
@@ -417,10 +417,13 @@
                         <div class="call">
                             <p>Единый телефон</p>
                             <p class="tel">+7 (800) 555-64-47</p>
-                            <p class="input-text"><input type="tel" name="phone" id="callback_footer_form-phone"
-                                                         required="" placeholder="Ваш номер телефона..."></p>
+                            <p class="input-text">
+                          <input type="tel" name="phone" id="callback_footer_form-phone"
+                                                         required=""
+                                                         placeholder="Ваш номер телефона...">
+                                                        </p>
 
-                            <button class="btn callback-btn" type="submit" data-popup="#thanks">Перезвоните мне
+                            <button class="btn callback-btn" type="submit">Перезвоните мне
                             </button>
                         </div>
                     </div>
@@ -469,7 +472,7 @@
                 <p class="input-text"><input type="tel" name="phone" id="callback_form1-phone" required
                                              placeholder="Ваш номер телефона..."></p>
                 <p class="personal-data">
-                    <input type="checkbox" required id="check"><label for="check">Я согласен на обработку <br>персональных
+                    <input type="checkbox" name="consent" required id="check"><label for="check">Я согласен на обработку <br>персональных
                     данных</label>
 
                 </p>
@@ -494,7 +497,7 @@
                 <p class="input-text"><input type="tel" name="phone" id="callback_form2-phone" required
                                              placeholder="Ваш номер телефона..."></p>
                 <p class="personal-data">
-                    <input type="checkbox" required id="check2"><label for="check2">Я согласен на обработку <br>персональных
+                    <input type="checkbox" name="consent" required id="check2"><label for="check2">Я согласен на обработку <br>персональных
                     данных</label>
 
                 </p>
@@ -518,6 +521,20 @@
         </div>
     </div>
 </div>
+<div class="popup" id="error">
+  <div class="overlay">
+  </div>
+  <div class="form-wrapper">
+      <div class="close-form">
+          <img src="images/close-icon.png" alt="close" class="close_icon">
+      </div>
+      <div class="form-content">
+          <h4>Что-то пошло не так...</h4>
+          <p>Попробуйте ввести снова</p>
+          <button class="btn close-btn">OK</button>
+      </div>
+  </div>
+</div>
 <div class="popup" id="gift">
     <div class="overlay">
     </div>
@@ -534,6 +551,7 @@
 
 </div>
 
+<script src="./maskPhone.js"></script>
 <script src="./script.js"></script>
 <script>
   const options = {

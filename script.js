@@ -152,6 +152,16 @@ const clubСhoice = () => {
 }
 
 //Popup
+const showPopup = (elemId) => {
+  const elem = document.querySelector(elemId);
+  elem.style.display = 'block';
+} 
+
+const closePopup = () => {
+  const popup = document.querySelectorAll('.popup');
+  popup.forEach(item => item.style.display = 'none');
+}
+
 const popup = () => {
   const links = document.querySelectorAll('[data-popup]');
 
@@ -164,16 +174,6 @@ const popup = () => {
 
     })
   })
-
-  const showPopup = (elemId) => {
-    const elem = document.querySelector(elemId);
-    elem.style.display = 'block';
-  } 
-  
-  const closePopup = () => {
-    const popup = document.querySelectorAll('.popup');
-    popup.forEach(item => item.style.display = 'none');
-  }
 
   const btnClose = document.querySelectorAll('.close_icon'),
     overlay = document.querySelectorAll('.overlay'),
@@ -491,13 +491,78 @@ const gallerySlider = () => {
 
 }
 
-//формы / валидация форм
-const checkForm = (form) => {
 
+const postData = (data) => {
+  return fetch("./server.php", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data),
+  });
+};
+
+const inputValidListener = (elem) => {
+  const defaultStyle = elem.style; 
+  elem.addEventListener('input', () => {
+    if (elem.checkValidity()) {
+      elem.style = defaultStyle
+    } else {
+      elem.style.border = '1px solid red'
+    }
+  })
+}
+
+const formCallback = (form) => {
+  const consent = form.querySelector('[name="consent"]'),
+        nameForm = form.querySelector('input[name="name"]'),
+        phoneForm = form.querySelector('input[type="tel"]');
+
+  inputValidListener(nameForm)
+  nameForm.pattern = '^[а-яА-Я\\s]+$';
+
+  inputValidListener(phoneForm)
+  maskPhone('#' + phoneForm.id);
+  phoneForm.pattern = '^\\+7 \\(\\d{3}\\) \\d{3}-\\d{2}-\\d{2}$';
+
+  //удаляем required и проверяем в ручную 
+  consent.removeAttribute('required')
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    if (!consent.checked) {
+      alert('Необходимо согласие на обработку данных')
+    } else {
+      postData(formToJSON(form))
+        .then(() => showPopup('#thanks'))
+        .catch(() =>  showPopup('#error'))
+    }
+  })
+}
+
+const formFooter = (form) => {
+  const clubs = form.querySelector('[name="club-name"]'),
+        phoneForm = form.querySelector('input[type="tel"]');
+
+  inputValidListener(phoneForm)
+  maskPhone('#' + phoneForm.id);
+  phoneForm.pattern = '^\\+7 \\(\\d{3}\\) \\d{3}-\\d{2}-\\d{2}$';
+
+
+  form.addEventListener('submit', (event) => {
+    event.preventDefault()
+
+    if (!clubs.some(i => i.checked)) {
+      alert('Необходимо выбрать клуб')
+    } else {
+      postData(formToJSON(form))
+        .then(() => showPopup('#thanks'))
+        .catch(() => showPopup('#error'))
+    }
+  })
 }
 
 window.addEventListener('DOMContentLoaded', () => {
-
+  console.log("finish")
   clubСhoice();
   popup();
   scroll();
@@ -505,10 +570,10 @@ window.addEventListener('DOMContentLoaded', () => {
   mainSlider();
   calc();
   gallerySlider();
-  checkForm(document.getElementById('form1'));
-  checkForm(document.getElementById('form2'));
-  checkForm(document.getElementById('banner-form'));
-  checkForm(document.getElementById('card_order'));
-  checkForm(document.getElementById('footer_form'));
+  formCallback(document.getElementById('form1'));
+  formCallback(document.getElementById('form2'));
+  formCallback(document.getElementById('banner-form'));
+  formCallback(document.getElementById('card_order'));
+  formFooter(document.getElementById('footer_form'));
 
 });
