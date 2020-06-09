@@ -106,55 +106,6 @@ class SliderCarousel {
     }
   }
 
-  // addArow() {
-  //   const btnControl = document.querySelector('.control');
-  //   btnControl.style = `
-  //     display: flex;
-  //     flex-direction: row;
-  //     justify-content: space-between;
-  //   `;
-
-  //   this.prev = document.createElement('button');
-  //   this.next = document.createElement('button');
-
-  //   this.prev.className = 'my-slider__prev';
-  //   this.next.className = 'my-slider__next';
-
-  //   this.prev.innerHTML = '<i class="fa fa-chevron-left" aria-hidden="true"></i>';
-  //   this.next.innerHTML = '<i class="fa fa-chevron-right" aria-hidden="true"></i>';
-
-  //   btnControl.appendChild(this.prev);
-  //   btnControl.appendChild(this.next);
-
-    
-  //   const style = document.createElement('style');
-  //   style.textContent = `
-  //     .my-slider__prev,
-  //     .my-slider__next {
-  //       width: 30px;
-  //       height: 30px;
-  //       margin: -204px 0 0 0;
-  //       padding: 0;
-  //       background-color: #ffd11a;
-  //       border: transparent;
-  //       border-radius: 50%;
-  //       cursor: pointer;
-  //       z-index: 99
-  //     }
-  //     .my-slider__prev:hover,
-  //     .my-slider__prev:focus,
-  //     .my-slider__next:hover,
-  //     .my-slider__next:focus {
-  //       background-color: #ffd11a;
-  //       border: transparent;
-  //       border-radius: 50%;
-  //       outline: transparent
-  //     }
-  //   `;
-
-  //   document.head.appendChild(style);
-  // }
-
   responseInit() {
     const slidesToShowDefault = this.slidesToShow;
     const allResponse = this.responsive.map(item => item.breakpoint);
@@ -459,7 +410,8 @@ const gallerySlider = () => {
     })
   }
   
-  let currentSlide = 0;
+  let currentSlide = 0,
+    interval;
 
   const showSlide = (index) => {
     slide.forEach((item) => {
@@ -489,7 +441,15 @@ const gallerySlider = () => {
     showSlide(currentSlide);
   }
 
-  setInterval(autoPlaySlide, 5000);
+  const startSlide = (time = 3000) => {
+    interval = setInterval(autoPlaySlide, time);
+  }
+
+  startSlide();
+
+  const stopSlide = () => {
+    clearInterval(interval);
+  }
 
   wrapperGalery.addEventListener('click', (e) => {
     e.preventDefault();
@@ -516,8 +476,18 @@ const gallerySlider = () => {
       })
       showSlide(currentSlide);
     }
-    
   })
+  wrapperGalery.addEventListener('mouseover', (e) => {
+    if (e.target.matches('.my-slider__prev, .fa-chevron-left, .my-slider__next, .fa-chevron-right') || e.target.matches('.dot')) {
+      stopSlide();
+    }
+  })
+  wrapperGalery.addEventListener('mouseout', (e) => {
+    if (e.target.matches('.my-slider__prev, .fa-chevron-left, .my-slider__next, .fa-chevron-right') || e.target.matches('.dot')) {
+      startSlide();
+    }
+  })
+
 }
 
 window.addEventListener('DOMContentLoaded', () => {
