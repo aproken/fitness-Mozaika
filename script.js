@@ -356,7 +356,7 @@ const calcPromoPrice = (data) => {
         price = clubPrice[club_name][card_type],
         hasPromo = data['promo'] === 'ТЕЛО2019';
   if (hasPromo){
-    return price * 0.7;
+    return Math.floor(price * 0.7);
   } else {
     return price;
   }
@@ -388,6 +388,7 @@ const calc = () => {
   render()
 }
 
+//Фотогалерея
 const gallerySlider = () => {
   const slider = document.querySelector('.gallery-slider'),
     slide = slider.querySelectorAll('.slide'),
@@ -490,6 +491,11 @@ const gallerySlider = () => {
 
 }
 
+//формы / валидация форм
+const checkForm = (form) => {
+
+}
+
 window.addEventListener('DOMContentLoaded', () => {
 
   clubСhoice();
@@ -499,5 +505,10 @@ window.addEventListener('DOMContentLoaded', () => {
   mainSlider();
   calc();
   gallerySlider();
+  checkForm(document.getElementById('form1'));
+  checkForm(document.getElementById('form2'));
+  checkForm(document.getElementById('banner-form'));
+  checkForm(document.getElementById('card_order'));
+  checkForm(document.getElementById('footer_form'));
 
 });
