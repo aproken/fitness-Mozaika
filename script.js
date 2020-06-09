@@ -171,12 +171,13 @@ class SliderCarousel {
           if (widthWindow < allResponse[i]) {
             this.slidesToShow = this.responsive[i].slidesToShow;
             this.options.widthSlide = Math.floor(100 / this.slidesToShow); 
-            this.addMyStyle;
-          } else {
-            this.slidesToShow = slidesToShowDefault;
-            this.options.widthSlide = Math.floor(100 / this.slidesToShow); 
-            this.addMyStyle;
-          }
+            this.addMyStyle();
+          } 
+          // else {
+            //this.slidesToShow = slidesToShowDefault;
+            //this.options.widthSlide = Math.floor(100 / this.slidesToShow); 
+            //this.addMyStyle();
+          // }
         }
       }
     }
@@ -308,7 +309,7 @@ const toggleMenu = () => {
       topMenu.style.position = 'fixed';
       patchMenu.style.height = size + 'px';
     } else {
-      topMenu.style.position = 'relative';
+      topMenu.style.position = 'static';
       patchMenu.style.height = 0;
     }
   })

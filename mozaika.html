@@ -346,7 +346,7 @@
     </div>
 </section>
 <section id="services">
-    <div class="wrapper">
+    <div id="slider-carousel-moz" class="wrapper">
         <h2>услуги наших клубов</h2>
         <div class="services-slider">
             <div class="slide">
@@ -400,6 +400,7 @@
                 <p>Йога - идеальны не только физическая форма, но и эмоциональное состояние</p>
             </div>
         </div>
+        <div class="control"></div>
     </div>
 </section>
 <section id="banner">
@@ -572,5 +573,42 @@
 </div>
 
 <script src="./script.js"></script>
+<script>
+  const options = {
+    main: '#slider-carousel-moz',
+    wrap: '.services-slider',
+    slidesToShow: 5,
+    infinity: true,
+
+    responsive: [
+      {
+        breakpoint: 1120,
+        slidesToShow: 5
+      },
+      {
+        breakpoint: 1090,
+        slidesToShow: 4
+      },
+      {
+        breakpoint: 876,
+        slidesToShow: 3
+      },
+      {
+        breakpoint: 660,
+        slidesToShow: 2
+      },
+      {
+        breakpoint: 500,
+        slidesToShow: 1
+      }
+    ]
+  }
+
+  window.addEventListener('DOMContentLoaded', () => {
+    const carousel = new SliderCarousel(options);
+
+    carousel.init();
+  })
+</script>
 </body>
 </html>
