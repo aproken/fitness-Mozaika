@@ -500,13 +500,17 @@ const postData = (data) => {
   });
 };
 
-const inputValidListener = (elem) => {
+const inputValidListener = (elem, message="Введите коректный формат") => {
   const defaultStyle = elem.style; 
   elem.addEventListener('input', () => {
+    // обнуляем кастомную ошибку 
+     elem.setCustomValidity('');
+    // проверяем на валидность
     if (elem.checkValidity()) {
-      elem.style = defaultStyle
+      elem.style = defaultStyle;
     } else {
       elem.style.border = '1px solid red'
+      elem.setCustomValidity(message);
     }
   })
 }
@@ -516,10 +520,12 @@ const formCallback = (form) => {
         nameForm = form.querySelector('input[name="name"]'),
         phoneForm = form.querySelector('input[type="tel"]');
 
-  inputValidListener(nameForm)
+  // debugger
+  
+  inputValidListener(nameForm, "Имя может содержать только кирилические символы")
   nameForm.pattern = '^[а-яА-Я\\s]+$';
 
-  inputValidListener(phoneForm)
+  inputValidListener(phoneForm, "Телефон может содержать только цифры и знак + ")
   maskPhone('#' + phoneForm.id);
   phoneForm.pattern = '^\\+7 \\(\\d{3}\\) \\d{3}-\\d{2}-\\d{2}$';
 
@@ -543,7 +549,7 @@ const formFooter = (form) => {
   const clubs = form.querySelector('[name="club-name"]'),
         phoneForm = form.querySelector('input[type="tel"]');
 
-  inputValidListener(phoneForm)
+  inputValidListener(phoneForm, "Телефон может содержать только цифры и знак + ")
   maskPhone('#' + phoneForm.id);
   phoneForm.pattern = '^\\+7 \\(\\d{3}\\) \\d{3}-\\d{2}-\\d{2}$';
 
