@@ -49,7 +49,7 @@ export const formCallback = (form) => {
 }
 
 export const formFooter = (form) => {
-  const clubs = form.querySelector('[name="club-name"]'),
+  const clubs = form.querySelectorAll('[name="club-name"]'),
         phoneForm = form.querySelector('input[type="tel"]');
 
   inputValidListener(phoneForm, "Телефон может содержать только цифры и знак + ")
@@ -60,7 +60,7 @@ export const formFooter = (form) => {
   form.addEventListener('submit', (event) => {
     event.preventDefault()
 
-    if (!clubs.some(i => i.checked)) {
+    if (![...clubs].some(i => i.checked)) {
       alert('Необходимо выбрать клуб')
     } else {
       postData(formToJSON(form))

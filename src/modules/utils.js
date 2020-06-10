@@ -3,7 +3,8 @@ export const postData = (data) => {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(data),
-  });
+  })
+    .then(res => res.ok ? res : Promise.reject(res));
 };
 
 // Превращаем форму в JSON
