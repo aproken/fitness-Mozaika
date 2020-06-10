@@ -46,6 +46,13 @@ export const calc = () => {
 
   form.addEventListener('input', render);
 
+  form.addEventListener('submit', () => {
+    setTimeout(() => {
+      form.reset();
+      render();
+    }, 1000);
+  })
+
   render()
 }
 
